@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>藏文词云生成器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+</head>
+<body>
+    <div class="hero compact-hero">
+        <div class="hero-content">
+            <h1>
+                <span class="chinese-title">藏文词云生成器</span>
+                <span class="tibetan-title">བོད་ཡིག་ཡིག་གེའི་སྤུས་ལྡན་བཟོ་ཆས།</span>
+            </h1>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="input-tab">
+                <i class="fas fa-file-alt"></i> 文本输入
+            </button>
+            <button class="tab-btn" data-tab="settings-tab">
+                <i class="fas fa-sliders-h"></i> 词云设置
+            </button>
+            <button class="tab-btn" data-tab="result-tab">
+                <i class="fas fa-cloud"></i> 词云结果
+            </button>
+        </div>
+        
+        <!-- 1. 文本输入区域 -->
+        <div class="tab-content active" id="input-tab">
+            <div class="panel glass-panel">
+                <h2><i class="fas fa-file-alt"></i> 文本输入</h2>
+                
+                <div class="input-group">
+                    <label for="text-source">选择文本来源:</label>
+                    <div class="select-wrapper">
+                        <select id="text-source">
+                            <option value="input">手动输入</option>
+                            <option value="sample">使用示例文本</option>
+                            <option value="file">上传文本文件</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                
+                <div id="file-upload-container" class="hidden">
+                    <label for="text-file" class="file-upload-label">
+                        <i class="fas fa-upload"></i> 选择文本文件
+                        <input type="file" id="text-file" accept=".txt,.doc,.docx">
+                    </label>
+                    <span id="file-name">未选择文件</span>
+                </div>
+                
+                <textarea id="tibetan-text" placeholder="请输入藏文文本...">༄༅། །རྒྱ་གར་སྐད་དུ། བོ་དྷི་སཏྭ་ཙརྻ་ཨ་བ་ཏ་ར། བོད་སྐད་དུ། བྱང་ཆུབ་སེམས་དཔའི་སྤྱོད་པ་ལ་འཇུག་པ། །སངས་རྒྱས་དང་བྱང་ཆུབ་སེམས་དཔའ་ཐམས་ཅད་ལ་ཕྱག་འཚལ་ལོ། །བདེ་གཤེགས་ཆོས་ཀྱི་སྐུ་མངའ་སྲས་བཅས་དང༌། །ཕྱག་འོས་ཀུན་ལའང་གུས་པར་ཕྱག་འཚལ་ཏེ། །བདེ་གཤེགས་སྲས་ཀྱི་སྡོམ་ལ་འཇུག་པ་ནི། །ལུང་བཞིན་མདོར་བསྡུས་ནས་ནི་བརྗོད་པར་བྱ།</textarea>
+                
+                <div class="button-group">
+                    <button id="clear-btn" class="btn-with-icon">
+                        <i class="fas fa-eraser"></i> 清除内容
+                    </button>
+                    <button id="next-to-settings" class="btn-with-icon primary-btn">
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2. 词云设置区域 -->
+        <div class="tab-content" id="settings-tab">
+            <div class="panel glass-panel">
+                <h2><i class="fas fa-sliders-h"></i> 词云设置</h2>
+                
+                <div class="settings-grid">
+                    <!-- 第一行：词条数量 和 字体大小范围 -->
+                    <div class="setting-row">
+                        <div class="setting-item">
+                            <label for="word-count">词条数量:</label>
+                            <div class="range-container">
+                                <input type="range" id="word-count" min="10" max="200" value="50">
+                                <span id="word-count-value">50</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label>字体大小范围:</label>
+                            <div class="font-size-range">
+                                <div class="range-container">
+                                    <span>最小:</span>
+                                    <input type="range" id="min-font-size" min="8" max="30" value="12">
+                                    <span id="min-font-size-value">12px</span>
+                                </div>
+                                <div class="range-container">
+                                    <span>最大:</span>
+                                    <input type="range" id="max-font-size" min="30" max="100" value="60">
+                                    <span id="max-font-size-value">60px</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第二行：颜色选择 和 字体设置 -->
+                    <div class="setting-row">
+                        <div class="setting-item">
+                            <label>颜色选择:</label>
+                            <div class="color-picker-container">
+                                <div class="color-palette">
+                                    <!-- 只保留自定义颜色选择器 -->
+                                    <div class="color-item custom-color">
+                                        <input type="color" id="custom-color-picker" value="#3b82f6" title="自定义颜色">
+                                    </div>
+                                </div>
+                                <div id="selected-colors" class="selected-colors">
+                                    <div class="selected-color-item" style="background-color: #3b82f6;" data-color="#3b82f6"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label>字体设置:</label>
+                            <div class="font-upload-section">
+                                <div class="default-font-info">
+                                    <span class="default-font-label">默认字体: 吞弥恰俊字体</span>
+                                </div>
+                                <label for="custom-font" class="file-upload-label">
+                                    <i class="fas fa-plus"></i> 添加更多字体
+                                    <input type="file" id="custom-font" accept=".ttf,.otf" multiple>
+                                </label>
+                                <div id="uploaded-fonts" class="uploaded-fonts"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第三行：词云形状（左侧占一列，右侧留空或用于未来扩展） -->
+                    <div class="setting-row">
+                        <div class="setting-item">
+                            <label for="shape-selector">词云形状:</label>
+                            <div class="select-wrapper">
+                                <select id="shape-selector">
+                                    <option value="rectangle" selected>矩形</option>
+                                    <option value="circle">圆形</option>
+                                    <option value="ellipse">椭圆形</option>
+                                    <option value="triangle">三角形</option>
+                                    <option value="diamond">菱形</option>
+                                    <option value="pentagon">五角形</option>
+                                    <option value="hexagon">六角形</option>
+                                    <option value="star">星形</option>
+                                    <option value="heart">心形</option>
+                                    <option value="cloud">云形</option>
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- 第三行右侧留空，用于保持布局平衡 -->
+                        <div class="setting-item setting-placeholder">
+                            <!-- 预留位置，可用于未来功能扩展 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="back-to-input" class="btn-with-icon">
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button id="generate-btn" class="btn-with-icon primary-btn">
+                        <i class="fas fa-magic"></i> 生成词云
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 3. 结果展示区域 -->
+        <div class="tab-content" id="result-tab">
+            <div class="panel glass-panel result-panel">
+                <h2><i class="fas fa-cloud"></i> 词云结果</h2>
+                <div id="loading" class="hidden">
+                    <div class="spinner"></div>
+                    <span>正在生成词云...</span>
+                </div>
+                <div id="wordcloud-container"></div>
+                
+                <div class="button-group">
+                    <button id="back-to-settings" class="btn-with-icon">
+                        <i class="fas fa-arrow-left"></i> 返回设置
+                    </button>
+                    <button id="regenerate-btn" class="btn-with-icon primary-btn" disabled>
+                        <i class="fas fa-sync-alt"></i> 重新生成
+                    </button>
+                    <div class="save-options">
+                        <button id="save-svg-btn" class="btn-with-icon secondary-btn" disabled>
+                            <i class="fas fa-vector-square"></i> 保存SVG
+                        </button>
+                        <button id="save-png-btn" class="btn-with-icon secondary-btn" disabled>
+                            <i class="fas fa-image"></i> 保存PNG
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 藏文词云生成器 | 使用 botok 分词技术</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3.layout.cloud.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

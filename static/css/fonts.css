@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Qomolangma-Title';
+    src: url('../fonts/Qomolangma-Title.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Tunmi-Tibetan';
+    src: url('../fonts/吞弥恰俊——尼赤乌坚体.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jomolhari-Regular';
+    src: url('../fonts/Jomolhari-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FangZheng-Tibetan';
+    src: url('../fonts/方正藏意汉体简体.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
