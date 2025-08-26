@@ -1,7 +1,7 @@
 # 藏文词云生成器 (Tibetan Word Cloud Generator)
 
 专为藏文设计的智能词云生成工具，支持多字体、多形状、多颜色自定义配置。
-![藏文词云生成器界面](jietu.png)
+![藏文词云生成器界面](./images/step3.png)
 
 ## 功能特性
 
@@ -24,7 +24,7 @@
 - **拖拽上传**：支持文本文件和字体文件上传
 
 ## 技术架构
-![技术架构图](11.png)
+![技术架构图](./images/11.png)
 ### 后端技术栈
 - **Flask**：轻量级 Web 框架
 - **botok**：专业藏文分词处理库
@@ -64,7 +64,7 @@ TibetanCloudGen-main/
 │   │   └── Jomolhari-Regular.ttf
 │   └── uploads/          # 上传文件临时目录
 ├── README.md             # 项目说明文档
-└── out.png              # 示例输出图片
+└── images/              # 示例输出图片
 ```
 
 ## 快速开始
@@ -229,3 +229,10 @@ const colorThemes = {
 - JavaScript 使用 ES6+ 语法
 - CSS 使用语义化类名
 - 提交信息使用中文描述
+
+
+## 联系我们
+
+- 项目维护者：[Pemawangchuk](https://github.com/bmwj)
+- 项目仓库：[TibetanCloudGen](https://github.com/bmwj/TibetanCloudGen)
+- 问题反馈：[Issues](https://github.com/bmwj/TibetanCloudGen/issues)
