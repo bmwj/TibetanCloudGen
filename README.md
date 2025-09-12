@@ -1,7 +1,7 @@
 # 藏文词云生成器 (Tibetan Word Cloud Generator)
 
 专为藏文设计的智能词云生成工具，支持多字体、多形状、多颜色自定义配置。
-![藏文词云生成器界面](./images/step3.png)
+![藏文词云生成器界面](./images/jietu.png)
 
 ## 功能特性
 
